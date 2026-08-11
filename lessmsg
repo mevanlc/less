@@ -50,6 +50,7 @@ Non_match Non-match\40
 First_file First-file\40
 EOF_ignore EOF-ignore\40
 Keep_pos Keep-pos\40
+Exit_no_match Exit-no-match\40
 Regex_off Regex-off\40
 Wrap Wrap\40
 Lit Lit\40

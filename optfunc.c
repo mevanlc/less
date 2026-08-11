@@ -1322,6 +1322,7 @@ public void opt_search_type(int type, constant char *s)
 			case 'N': case 'n': case CONTROL('N'): st |= SRCH_NO_MATCH;   break;
 			case 'R': case 'r': case CONTROL('R'): st |= SRCH_NO_REGEX;   break;
 			case 'W': case 'w': case CONTROL('W'): st |= SRCH_WRAP;       break;
+			case 'X': case 'x': case CONTROL('X'): st |= SRCH_EXIT_IF_NO_MATCH; break;
 			case '-': st = 0; break;
 			case '^': break;
 			default:
@@ -1345,6 +1346,7 @@ public void opt_search_type(int type, constant char *s)
 		if (def_search_type & SRCH_NO_MATCH)   *bp++ = 'N'; 
 		if (def_search_type & SRCH_NO_REGEX)   *bp++ = 'R'; 
 		if (def_search_type & SRCH_WRAP)       *bp++ = 'W'; 
+		if (def_search_type & SRCH_EXIT_IF_NO_MATCH) *bp++ = 'X';
 		for (i = 1;  i <= NUM_SEARCH_COLORS;  i++)
 			if (def_search_type & SRCH_SUBSEARCH(i))
 				*bp++ = (char) ('0'+i);

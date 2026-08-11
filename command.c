@@ -58,6 +58,7 @@ extern POSITION soft_eof;
 extern POSITION search_incr_start;
 extern char *first_cmd_at_prompt;
 extern lbool prompting;
+extern constant char *quit_message;
 #if SHELL_ESCAPE || PIPEC
 extern void *ml_shell;
 #endif
@@ -188,6 +189,8 @@ static void mca_search1(void)
 		cmd_putstr(LM(EOF_ignore));
 	if (search_type & SRCH_NO_MOVE)
 		cmd_putstr(LM(Keep_pos));
+	if (search_type & SRCH_EXIT_IF_NO_MATCH)
+		cmd_putstr(LM(Exit_no_match));
 	if (search_type & SRCH_NO_REGEX)
 		cmd_putstr(LM(Regex_off));
 	if (search_type & SRCH_WRAP)
@@ -580,6 +583,7 @@ static int mca_search_char(char c)
 	 *      !  Toggle the NO_MATCH flag
 	 *      *  Toggle the PAST_EOF flag
 	 *      @  Toggle the FIRST_FILE flag
+	 *      ^X Toggle the EXIT_IF_NO_MATCH flag
 	 */
 	if (!cmdbuf_empty() || literal_char)
 	{
@@ -606,6 +610,10 @@ static int mca_search_char(char c)
 	case CONTROL('K'): /* KEEP position */
 		if (mca != A_FILTER)
 			flag = SRCH_NO_MOVE;
+		break;
+	case CONTROL('X'): /* eXit if no match */
+		if (mca != A_FILTER)
+			flag = SRCH_EXIT_IF_NO_MATCH;
 		break;
 	case CONTROL('S'): { /* SUBSEARCH */
 		static char *buf = NULL;
@@ -1256,6 +1264,7 @@ static void multi_search(constant char *pattern, int n, int silent)
 	int nomore;
 	IFILE save_ifile;
 	lbool changed_file;
+	lbool exit_if_no_match;
 
 	changed_file = FALSE;
 	save_ifile = save_curr_ifile();
@@ -1325,11 +1334,13 @@ static void multi_search(constant char *pattern, int n, int silent)
 		changed_file = TRUE;
 	}
 
+	exit_if_no_match = (n > 0 && (search_type & SRCH_EXIT_IF_NO_MATCH));
+
 	/*
 	 * Didn't find it.
 	 * Print an error message if we haven't already.
 	 */
-	if (n > 0 && !silent)
+	if (n > 0 && !silent && !exit_if_no_match)
 	{
 		PARG parg;
 		parg.p_string = prev_pattern_text();
@@ -1348,6 +1359,11 @@ static void multi_search(constant char *pattern, int n, int silent)
 	} else
 	{
 		unsave_ifile(save_ifile);
+	}
+	if (exit_if_no_match)
+	{
+		quit_message = LM(Pattern_not_found);
+		quit(QUIT_ERROR);
 	}
 }
 

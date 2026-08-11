@@ -61,6 +61,7 @@
         ^E or *  Search multiple files (pass thru END OF FILE).
         ^F or @  Start search at FIRST file (for /) or last file (for ?).
         ^K       Highlight matches, but don't move (KEEP position).
+        ^X       Exit if the pattern is not found.
         ^R       Don't use REGULAR EXPRESSIONS.
         ^S _n     Search for match in _n-th parenthesized subpattern.
         ^W       WRAP search if no match found.
@@ -282,7 +283,7 @@
                   Set the character used to mark truncated lines.
                 --save-marks
                   Retain marks across invocations of less.
-                --search-options=[EFKNRW-]
+                --search-options=[EFKNRWX-]
                   Set default options for every search.
                 --show-preproc-errors
                   Display a message if preprocessor exits with an error status.

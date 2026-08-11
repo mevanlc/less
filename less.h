@@ -394,6 +394,7 @@ typedef short POLL_EVENTS;
 #define SRCH_NO_MATCH   (1 << 8)  /* Search for non-matching lines */
 #define SRCH_PAST_EOF   (1 << 9)  /* Search past end-of-file, into next file */
 #define SRCH_FIRST_FILE (1 << 10) /* Search starting at the first file */
+#define SRCH_EXIT_IF_NO_MATCH (1 << 11) /* Exit if the pattern is not found */
 #define SRCH_NO_REGEX   (1 << 12) /* Don't use regular expressions */
 #define SRCH_FILTER     (1 << 13) /* Search is for '&' (filter) command */
 #define SRCH_AFTER_TARGET (1 << 14) /* Start search after the target line */

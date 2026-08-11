@@ -76,6 +76,8 @@
 
 * Fix bugs using ^S search modifier (github #814).
 
+* Add ^X search modifier to exit if the pattern is not found.
+
 * Fix display bugs when a status message contains non-ASCII chars
   or is displayed on a very narrow screen (github #816).
 

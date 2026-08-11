@@ -387,6 +387,12 @@ options.
 .IP "\*^K"
 Highlight any text which matches the pattern on the current screen,
 but don't move to the first match (KEEP current position).
+.IP "\*^X"
+Exit
+.B less
+if the pattern is not found.
+The message "Pattern not found" is printed to standard output after the
+terminal deinitialization string has been sent.
 .IP "\*^R"
 Don't interpret regular expression metacharacters;
 that is, do a simple textual comparison.

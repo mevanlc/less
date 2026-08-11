@@ -41,6 +41,7 @@ public lbool    quitting = FALSE;
 public lbool    dohelp = FALSE;
 public char *   init_header = NULL;
 public constant char * no_config = NULL;
+public constant char *quit_message = NULL;
 static unsigned int secure_allow_features;
 
 #if LOGFILE
@@ -599,6 +600,13 @@ public void quit(int status)
 	edit((char*)NULL);
 	save_cmdhist();
 	raw_mode(FALSE);
+	if (quit_message != NULL)
+	{
+		set_output(1, TRUE);
+		putstr(quit_message);
+		putchr('\n');
+		flush();
+	}
 #if MSDOS_COMPILER && MSDOS_COMPILER != DJGPPC
 	/* 
 	 * If we don't close 2, we get some garbage from
